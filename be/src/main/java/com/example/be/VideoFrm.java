@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/views")
 @RequiredArgsConstructor
 public class VideoFrm {
     private final VideoRepository videoRepository;
