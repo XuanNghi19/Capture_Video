@@ -1,0 +1,12 @@
+div {
+  width: full;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  gap: 30px;
+}
+
+video {
+  margin: 20px 0px;
+}
