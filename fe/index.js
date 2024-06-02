@@ -1,19 +1,56 @@
 let prompts = [
-  "Xin chào, tôi tên là [Tên của bạn]. Tôi sống ở [Thành phố của bạn] và làm việc trong lĩnh vực [Ngành nghề của bạn].",
-  "Tôi thích đọc sách và đi du lịch. Đọc sách giúp tôi thư giãn, còn du lịch mang lại cho tôi những trải nghiệm mới.",
-  "Mỗi ngày, tôi bắt đầu làm việc lúc 8 giờ sáng. Tôi thường họp, xử lý email và hoàn thành các nhiệm vụ trong ngày.",
-  "Kỳ nghỉ đáng nhớ nhất của tôi là chuyến đi đến Đà Nẵng. Tôi đã thăm Bà Nà Hills và thưởng thức các món ăn địa phương.",
-  "Mục tiêu của tôi trong năm tới là học thêm một ngôn ngữ lập trình mới và tham gia nhiều dự án thú vị hơn.",
-  "Gần đây, tôi đã học cách nấu ăn. Món ăn đầu tiên tôi nấu là món spaghetti và nó rất ngon.",
-  "Cuốn sách yêu thích của tôi là 'Nhà giả kim' của Paulo Coelho. Nó mang đến nhiều bài học quý giá về cuộc sống.",
-  "Thành tựu tôi tự hào nhất là tốt nghiệp đại học với điểm số cao. Đó là kết quả của sự nỗ lực không ngừng.",
-  "Người tôi ngưỡng mộ nhất là cha tôi. Ông luôn làm việc chăm chỉ và không ngừng học hỏi.",
-  "Cuối tuần này, tôi sẽ đi dã ngoại cùng gia đình. Chúng tôi dự định sẽ chơi thể thao và tổ chức một buổi picnic.",
-  "Một thử thách lớn mà tôi đã vượt qua là học lái xe. Ban đầu rất khó khăn, nhưng cuối cùng tôi đã làm được.",
-];
+  {
+    text: "Xin chào, tôi tên là [Tên của bạn]. Tôi sống ở [Thành phố của bạn] và làm việc trong lĩnh vực [Ngành nghề của bạn].",
+    timeToSpeak: 9.857142857142858
+  },
+  {
+    text: "Tôi thích đọc sách và đi du lịch. Đọc sách giúp tôi thư giãn, còn du lịch mang lại cho tôi những trải nghiệm mới.",
+    timeToSpeak: 8.571428571428571
+  },
+  {
+    text: "Mỗi ngày, tôi bắt đầu làm việc lúc 8 giờ sáng. Tôi thường họp, xử lý email và hoàn thành các nhiệm vụ trong ngày.",
+    timeToSpeak: 8.571428571428571
+  },
+  {
+    text: "Kỳ nghỉ đáng nhớ nhất của tôi là chuyến đi đến Đà Nẵng. Tôi đã thăm Bà Nà Hills và thưởng thức các món ăn địa phương.",
+    timeToSpeak: 9.857142857142858
+  },
+  {
+    text: "Mục tiêu của tôi trong năm tới là học thêm một ngôn ngữ lập trình mới và tham gia nhiều dự án thú vị hơn.",
+    timeToSpeak: 9.428571428571429
+  },
+  {
+    text: "Gần đây, tôi đã học cách nấu ăn. Món ăn đầu tiên tôi nấu là món spaghetti và nó rất ngon.",
+    timeToSpeak: 7.714285714285714
+  },
+  {
+    text: "Cuốn sách yêu thích của tôi là 'Nhà giả kim' của Paulo Coelho. Nó mang đến nhiều bài học quý giá về cuộc sống.",
+    timeToSpeak: 7.714285714285714
+  },
+  {
+    text: "Thành tựu tôi tự hào nhất là tốt nghiệp đại học với điểm số cao. Đó là kết quả của sự nỗ lực không ngừng.",
+    timeToSpeak: 8.142857142857142
+  },
+  {
+    text: "Người tôi ngưỡng mộ nhất là cha tôi. Ông luôn làm việc chăm chỉ và không ngừng học hỏi.",
+    timeToSpeak: 7.285714285714286
+  },
+  {
+    text: "Cuối tuần này, tôi sẽ đi dã ngoại cùng gia đình. Chúng tôi dự định sẽ chơi thể thao và tổ chức một buổi picnic.",
+    timeToSpeak: 9.0
+  },
+  {
+    text: "Một thử thách lớn mà tôi đã vượt qua là học lái xe. Ban đầu rất khó khăn, nhưng cuối cùng tôi đã làm được.",
+    timeToSpeak: 8.142857142857142
+  }
+]
 
 let constraintObj = {
-  audio: true,
+  audio: {
+    echoCancellation: true, // Tắt tính năng loại bỏ vọng
+    autoGainControl: false, // Tắt tính năng điều chỉnh tăng âm tự động
+    noiseSuppression: false // Tắt tính năng khử tiếng ồn
+  },
   video: {
     facingMode: "user",
     width: { min: 640, ideal: 1280, max: 1920 },
@@ -53,50 +90,53 @@ let randomPromptElement;
 document.addEventListener("DOMContentLoaded", function () {
   console.log("asasxas");
   randomPromptElement = getRandomPromt(prompts);
-  document.getElementById("randomPrompt1").innerText = randomPromptElement;
-  document.getElementById("randomPrompt2").innerText = randomPromptElement;
+  document.getElementById("randomPrompt1").innerText = randomPromptElement.text;
+  document.getElementById("randomPrompt2").innerText = randomPromptElement.text;
 
   document.getElementById("record").addEventListener("click", async () => {
     document.getElementById("prompt").style.visibility = "hidden";
     document.getElementById("capture").style.visibility = "visible";
 
     try {
-      const duration = await calculateSpeechDuration(randomPromptElement);
-      console.log(duration);
+      await record(randomPromptElement);
     } catch (error) {
       console.error("Đã xảy ra lỗi:", error);
     }
   });
 
-  document.getElementById("continueRecord").addEventListener("click", () => {
-    document.getElementById("prompt").style.visibility = "visible";
-    document.getElementById("capture").style.visibility = "hidden";
+  // document.getElementById("continueRecord").addEventListener("click", () => {
+  //   document.getElementById("prompt").style.visibility = "visible";
+  //   document.getElementById("capture").style.visibility = "hidden";
 
-    randomPromptElement = getRandomPromt(prompts);
-    document.getElementById("randomPrompt1").innerText = randomPromptElement;
-    document.getElementById("randomPrompt2").innerText = randomPromptElement;
-  });
+  //   randomPromptElement = getRandomPromt(prompts);
+  //   document.getElementById("randomPrompt1").innerText =
+  //     randomPromptElement.text;
+  //   document.getElementById("randomPrompt2").innerText =
+  //     randomPromptElement.text;
+  // });
 });
+
+function newRandomPromt() {
+  document.getElementById("prompt").style.visibility = "visible";
+  document.getElementById("capture").style.visibility = "hidden";
+
+  randomPromptElement = getRandomPromt(prompts);
+  document.getElementById("randomPrompt1").innerText =
+    randomPromptElement.text;
+  document.getElementById("randomPrompt2").innerText =
+    randomPromptElement.text;
+}
 
 function getRandomPromt(arr) {
   let randIndex = Math.floor(Math.random() * arr.length);
   return arr[randIndex];
 }
 
-function calculateSpeechDuration(text) {
+function record(rd) {
   return new Promise((resolve) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "vi-VN"; // Ngôn ngữ tiếng Việt
-    utterance.rate = 0.9; // Tốc độ đọc bình thường
-    utterance.pitch = 1; // Cao độ bình thường
-    utterance.volume = 0; // Âm lượng tối đa
-
-    let startTime;
-
     navigator.mediaDevices
       .getUserMedia(constraintObj)
       .then(function (mediaStreamObj) {
-        // ket noi media stream voi the video dau tien
         let video = document.querySelector("video");
         if ("srcObject" in video) {
           video.srcObject = mediaStreamObj;
@@ -111,29 +151,24 @@ function calculateSpeechDuration(text) {
         };
 
         // lang nghe su kien
-        let mediaRecorder = new MediaRecorder(mediaStreamObj);
+        let mediaRecorder = new MediaRecorder(mediaStreamObj, {
+          mimeType: "video/webm;codecs=vp9,opus",
+          audioBitsPerSecond: 128000,
+          sampleRate: 48000,
+          channelCount: 2,
+        });
         let chunks = [];
 
+        setTimeout(1500);
         // Sự kiện bắt đầu nói
-        utterance.onstart = () => {
-          mediaRecorder.start();
-          startTime = performance.now();
-          console.log("start!");
-          console.log(mediaRecorder.state);
-        };
+        mediaRecorder.start();
 
         // Sự kiện kết thúc nói
-        utterance.onend = () => {
+        setTimeout(function() {
           mediaRecorder.stop();
-          const endTime = performance.now();
-          const duration = endTime - startTime;
-          resolve(duration);
-          console.log("end!");
-          console.log(mediaRecorder.state);
-
-          // Dừng tất cả các track để ngừng tín hiệu đầu vào
           mediaStreamObj.getTracks().forEach((track) => track.stop());
-        };
+          newRandomPromt();
+        }, rd.timeToSpeak*1000);
 
         mediaRecorder.ondataavailable = function (ev) {
           chunks.push(ev.data);
@@ -144,8 +179,6 @@ function calculateSpeechDuration(text) {
           uploadVideo(blob);
         };
 
-        // Bắt đầu nói
-        window.speechSynthesis.speak(utterance);
       })
       .catch(function (err) {
         console.log(err.name, err.message);
